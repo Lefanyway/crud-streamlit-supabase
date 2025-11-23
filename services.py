@@ -155,8 +155,6 @@ def deletar_produto(id_prod: str):
 
 def listar_carrinho(cliente_id: str):
     sb = conectar_supabase()
-    # Query Otimizada: Busca carrinho E dados do produto em 1 request (Join)
-    # Algoritmo: Eager Loading para evitar N+1
     res = executar(
         sb.table("carrinho")
         .select("*, produtos(*)")
@@ -166,10 +164,8 @@ def listar_carrinho(cliente_id: str):
     carrinho_detalhado = []
     if res:
         for item in res:
-            # Supabase retorna o join aninhado em 'produtos'
             prod = item.get("produtos")
             if prod:
-                # Flattening dos dados para a view
                 item["produto_nome"] = prod["descricao"]
                 item["produto_valor_unit"] = prod["valor"]
                 carrinho_detalhado.append(item)
