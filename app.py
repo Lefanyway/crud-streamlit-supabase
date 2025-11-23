@@ -10,6 +10,7 @@ from views import login, perfil, produtos, carrinho
 # Configurar página
 st.set_page_config(**PAGE_CONFIG)
 
+
 # Verificar banco de dados
 db_ok, msg = init_db()
 if not db_ok:
