@@ -1,10 +1,7 @@
 """
 Configurações da aplicação
 """
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
+import streamlit as st
 
 # Configuração do Streamlit
 PAGE_CONFIG = {
@@ -14,8 +11,15 @@ PAGE_CONFIG = {
 }
 
 # Supabase
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY")
+# Acessando segredos do .streamlit/secrets.toml
+try:
+    SUPABASE_URL = st.secrets["SUPABASE_URL"]
+    SUPABASE_ANON_KEY = st.secrets["SUPABASE_ANON_KEY"]
+except FileNotFoundError:
+    # Fallback para desenvolvimento local sem secrets.toml (opcional)
+    import os
+    SUPABASE_URL = os.getenv("SUPABASE_URL")
+    SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY")
 
 # Tabelas
 TABELA_USUARIOS = "usuarios"
